@@ -25,6 +25,9 @@ export async function getDetailedViewData(id: string): Promise<Auction> {
 }
 
 export async function updateAuction(data: FieldValues, id: string) {
-    return fetchWrapper.put(`auction/${id}`, data);
+    return fetchWrapper.put(`auctions/${id}`, data);
 }
 
+export async function deleteAuction(id: string) {
+    return fetchWrapper.del(`auctions/${id}`);
+}
