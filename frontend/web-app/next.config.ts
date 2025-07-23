@@ -13,7 +13,8 @@ const nextConfig: NextConfig = {
         protocol: 'https', hostname: 'cdn.pixabay.com'
       }
     ]
-  }
+  },
+  output: 'standalone'
 };
 
 export default withFlowbiteReact(nextConfig);
