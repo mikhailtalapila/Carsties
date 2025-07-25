@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MongoDB.Driver;
 using MongoDB.Entities;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -41,7 +42,14 @@ var app = builder.Build();
 app.UseAuthorization();
 app.MapControllers();
 
-await DB.InitAsync("BidDB", MongoClientSettings
-    .FromConnectionString(builder.Configuration.GetConnectionString("BidDBConnection")));
+await Policy.Handle<TimeoutException>()
+    .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(10))
+    .ExecuteAndCaptureAsync(async () =>
+    {
+        await DB.InitAsync("BidDB", MongoClientSettings
+            .FromConnectionString(builder.Configuration.GetConnectionString("BidDBConnection")));
+    });
+
+
 
 app.Run();
