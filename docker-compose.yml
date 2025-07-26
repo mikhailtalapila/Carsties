@@ -37,7 +37,7 @@ services:
       start_period: 40s
   rabbitmq:
     image: rabbitmq:4-management-alpine
-    ports: 
+    ports:
       - 5672:5672
       - 15672:15672
     healthcheck:
@@ -158,6 +158,7 @@ services:
       - ID_URL_INTERNAL=http://identity-svc
       - AUTH_URL=https://app.carsties.local
       - AUTH_URL_INTERNAL=http://web-app:3000
+      - NOTIFY_URL=https://api.carsties.local/notifications
       - VIRTUAL_HOST=app.carsties.local
       - VIRTUAL_PORT=3000
   nginx-proxy:
